@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Web.Http;
 
 namespace FoodDelivery
@@ -9,19 +7,27 @@ namespace FoodDelivery
     {
         public static void Register(HttpConfiguration config)
         {
-            // Web API configuration and services
-
-            // Web API routes
             config.MapHttpAttributeRoutes();
 
             config.Routes.MapHttpRoute(
-                name: "DefaultApi",
-                routeTemplate: "api/{controller}/{id}",
-                defaults: new { id = RouteParameter.Optional }
+                name: "Address",
+                routeTemplate: "api/Address/{action}/{id}",
+                defaults: new { controller = "Address", id = RouteParameter.Optional }
+            );
+            config.Routes.MapHttpRoute(
+                name: "Client",
+                routeTemplate: "api/Client/{action}/{id}",
+                defaults: new { controller = "Client", id = RouteParameter.Optional }
+            );
+            config.Routes.MapHttpRoute(
+                name: "Food",
+                routeTemplate: "api/Food/{action}/",
+                defaults: new { controller = "Client" }
             );
 
             var appXmlType = config.Formatters.XmlFormatter.SupportedMediaTypes.FirstOrDefault(t => t.MediaType == "application/xml");
             config.Formatters.XmlFormatter.SupportedMediaTypes.Remove(appXmlType);
+
         }
     }
 }
