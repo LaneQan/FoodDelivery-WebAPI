@@ -39,12 +39,17 @@ namespace FoodDelivery.Controllers
         }
 
         [HttpDelete]
-        [Route("delete/")]
-        public async Task<IHttpActionResult> Delete([FromBody] Food fd)
+        [Route("delete/{id:int}")]
+        public async Task<IHttpActionResult> Delete(int id)
         {
-            if (fd != null)
+            if (id != null)
             {
-                db.Entry(fd).State = EntityState.Deleted;
+                Food food = db.Foods
+                    .Where(o => o.FoodId == id)
+                    .FirstOrDefault();
+
+                db.Foods.Remove(food);
+                db.SaveChanges();
                 await db.SaveChangesAsync();
                 return Ok();
             }
