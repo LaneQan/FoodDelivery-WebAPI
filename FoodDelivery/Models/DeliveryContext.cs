@@ -15,6 +15,5 @@ namespace FoodDelivery.Models
         public DbSet<Client> Clients { get; set; }
         public DbSet<Food> Foods { get; set; }
         public DbSet<Order> Orders { get; set; }
-        public DbSet<OrderFood> OrderFoods { get; set; }
     }
 }

@@ -16,5 +16,6 @@ namespace FoodDelivery.Models
         public int CookingTime { get; set; }
         public float Price { get; set; }
         public string Image { get; set; }
+        public int Quantity { get; set; }
     }
 }

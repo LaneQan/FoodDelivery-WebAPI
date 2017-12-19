@@ -9,13 +9,18 @@ namespace FoodDelivery.Controllers
     [RoutePrefix("api/address")]
     public class AddressController : ApiController
     {
-        DeliveryContext db = new DeliveryContext();
+        private DeliveryContext _db;
+
+        public AddressController()
+        {
+            _db = new DeliveryContext();
+        }
 
         [HttpGet]
         [Route("get/")]
         public async Task<IHttpActionResult> Get()
         {
-            var record = await db.Addressess.ToListAsync();
+            var record = await _db.Addressess.ToListAsync();
             if (record == null)
                 return NotFound();
             else return Ok(record);
@@ -25,7 +30,7 @@ namespace FoodDelivery.Controllers
         [Route("get/client/{id}")]
         public async Task<IHttpActionResult> GetByClient(int id)
         {
-            var record = await db.Addressess.Where(r => r.ClientId == id).ToListAsync();
+            var record = await _db.Addressess.Where(r => r.ClientId == id).ToListAsync();
             if (record == null)
                 return NotFound();
             else return Ok(record);
@@ -35,7 +40,7 @@ namespace FoodDelivery.Controllers
         [Route("get/{id:int}")]
         public async Task<IHttpActionResult> GetById(int id)
         {
-            var record = await db.Addressess.FirstAsync(r => r.AddressId == id);
+            var record = await _db.Addressess.FirstAsync(r => r.AddressId == id);
             if (record == null)
                 return NotFound();
             else return Ok(record);
@@ -47,9 +52,9 @@ namespace FoodDelivery.Controllers
         {
             if (ad != null)
             {
-                db.Addressess.Add(ad);
-                await db.SaveChangesAsync();
-                return Ok();
+                _db.Addressess.Add(ad);
+                await _db.SaveChangesAsync();
+                return Ok(_db.Addressess.Last().AddressId);
             }
             else return BadRequest();
         }
@@ -60,8 +65,8 @@ namespace FoodDelivery.Controllers
         {
             if (ad != null)
             {
-                db.Entry(ad).State = EntityState.Modified;
-                await db.SaveChangesAsync();
+                _db.Entry(ad).State = EntityState.Modified;
+                await _db.SaveChangesAsync();
                 return Ok();
             }
             else return BadRequest();
@@ -72,8 +77,8 @@ namespace FoodDelivery.Controllers
         {
             if (ad != null)
             {
-                db.Entry(ad).State = EntityState.Deleted;
-                await db.SaveChangesAsync();
+                _db.Entry(ad).State = EntityState.Deleted;
+                await _db.SaveChangesAsync();
                 return Ok();
             }
             else return BadRequest();

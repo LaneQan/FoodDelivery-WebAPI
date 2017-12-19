@@ -186,6 +186,7 @@
     <Compile Include="Controllers\AddressController.cs" />
     <Compile Include="Controllers\ClientController.cs" />
     <Compile Include="Controllers\FoodController.cs" />
+    <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Models\DeliveryContext.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -194,7 +195,6 @@
     <Compile Include="Models\Client.cs" />
     <Compile Include="Models\Food.cs" />
     <Compile Include="Models\Order.cs" />
-    <Compile Include="Models\OrderFood.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

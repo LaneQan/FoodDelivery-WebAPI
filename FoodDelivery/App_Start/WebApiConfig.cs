@@ -1,5 +1,7 @@
-﻿using System.Linq;
+﻿using System.Data.Entity;
+using System.Linq;
 using System.Web.Http;
+using FoodDelivery.Models;
 
 namespace FoodDelivery
 {
@@ -22,11 +24,17 @@ namespace FoodDelivery
             config.Routes.MapHttpRoute(
                 name: "Food",
                 routeTemplate: "api/Food/{action}/",
-                defaults: new { controller = "Client" }
+                defaults: new { controller = "Food" }
+            );
+            config.Routes.MapHttpRoute(
+                name: "Order",
+                routeTemplate: "api/Order/{action}/",
+                defaults: new { controller = "Order" }
             );
 
             var appXmlType = config.Formatters.XmlFormatter.SupportedMediaTypes.FirstOrDefault(t => t.MediaType == "application/xml");
             config.Formatters.XmlFormatter.SupportedMediaTypes.Remove(appXmlType);
+            Database.SetInitializer<DeliveryContext>(new DropCreateDatabaseIfModelChanges<DeliveryContext>());
 
         }
     }

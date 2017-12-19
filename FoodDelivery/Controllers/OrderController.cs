@@ -10,21 +10,22 @@ using FoodDelivery.Models;
 
 namespace FoodDelivery.Controllers
 {
-    [RoutePrefix("api/food")]
-    public class FoodController : ApiController
+    [RoutePrefix("api/order")]
+    public class OrderController : ApiController
     {
         private DeliveryContext _db;
 
-        public FoodController()
+        public OrderController()
         {
             _db = new DeliveryContext();
         }
 
+
         [HttpGet]
-        [Route("get/{type}")]
-        public async Task<IHttpActionResult> Get(string type)
+        [Route("get/")]
+        public async Task<IHttpActionResult> Get()
         {
-            var record = await _db.Foods.Where(r => r.Type == type).ToListAsync();
+            var record = await _db.Orders.ToListAsync();
             if (record == null)
                 return NotFound();
             else return Ok(record);
@@ -32,16 +33,28 @@ namespace FoodDelivery.Controllers
 
         [HttpPost]
         [Route("add/")]
-        public async Task<IHttpActionResult> Add([FromBody] Food fd)
+        public async Task<IHttpActionResult> Add([FromBody] Order order)
         {
-            if (fd != null)
+            if (order != null)
             {
-                _db.Foods.Add(fd);
+                _db.Orders.Add(order);
                 await _db.SaveChangesAsync();
                 return Ok();
             }
             else return BadRequest();
         }
+
+
+        [HttpGet]
+        [Route("get/{id:int}")]
+        public async Task<IHttpActionResult> Get(int id)
+        {
+            var record = await _db.Orders.Where(r => r.ClientId == id).ToListAsync();
+            if (record == null)
+                return NotFound();
+            else return Ok(record);
+        }
+
 
         [HttpDelete]
         [Route("delete/{id:int}")]
@@ -49,11 +62,11 @@ namespace FoodDelivery.Controllers
         {
             if (id != null)
             {
-                Food food = _db.Foods
-                    .Where(o => o.FoodId == id)
+                Order order = _db.Orders
+                    .Where(o => o.OrderId == id)
                     .FirstOrDefault();
 
-                _db.Foods.Remove(food);
+                _db.Orders.Remove(order);
                 _db.SaveChanges();
                 await _db.SaveChangesAsync();
                 return Ok();
