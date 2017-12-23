@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using FoodDelivery.Models;
+using Newtonsoft.Json;
 
 namespace FoodDelivery.Controllers
 {
@@ -25,16 +26,15 @@ namespace FoodDelivery.Controllers
         [Route("get/")]
         public async Task<IHttpActionResult> Get()
         {
-            var record = await _db.Orders.ToListAsync();
-            if (record == null)
-                return NotFound();
-            else return Ok(record);
+            var orders = await _db.Orders.Include(x => x.FoodList).ToListAsync();
+            return Ok(orders);
         }
 
+
         [HttpPost]
-        [Route("add/")]
-        public async Task<IHttpActionResult> Add([FromBody] Order order)
+        public async Task<IHttpActionResult> Add([FromBody] object json)
         {
+            Order order = JsonConvert.DeserializeObject<Order>(json.ToString());
             if (order != null)
             {
                 _db.Orders.Add(order);
@@ -45,14 +45,13 @@ namespace FoodDelivery.Controllers
         }
 
 
+
         [HttpGet]
         [Route("get/{id:int}")]
         public async Task<IHttpActionResult> Get(int id)
         {
-            var record = await _db.Orders.Where(r => r.ClientId == id).ToListAsync();
-            if (record == null)
-                return NotFound();
-            else return Ok(record);
+            var orders = await _db.Orders.Where(r => r.ClientId == id).Include(x => x.FoodList).ToListAsync();
+            return Ok(orders);
         }
 
 

@@ -54,7 +54,8 @@ namespace FoodDelivery.Controllers
             {
                 _db.Addressess.Add(ad);
                 await _db.SaveChangesAsync();
-                return Ok(_db.Addressess.Last().AddressId);
+                return Ok(_db.Addressess.OrderByDescending(p => p.AddressId)
+                    .FirstOrDefault().AddressId);
             }
             else return BadRequest();
         }

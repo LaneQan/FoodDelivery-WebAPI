@@ -45,7 +45,8 @@ namespace FoodDelivery.Controllers
             {
                 _db.Clients.Add(cl);
                 await _db.SaveChangesAsync();
-                return Ok(_db.Clients.Last().ClientId);
+                return Ok(_db.Clients.OrderByDescending(p => p.ClientId)
+                    .FirstOrDefault().ClientId);
             }
             else return BadRequest();
         }

@@ -9,11 +9,16 @@ namespace FoodDelivery.Models
 {
      class DeliveryContext : DbContext
     {
-        public DeliveryContext(): base("DbConnection") { }
+        public DeliveryContext() : base("DbConnection")
+        {
+            Configuration.ProxyCreationEnabled = true;
+            Configuration.LazyLoadingEnabled = true;
+        }
 
         public DbSet<Address> Addressess { get; set; }
         public DbSet<Client> Clients { get; set; }
         public DbSet<Food> Foods { get; set; }
         public DbSet<Order> Orders { get; set; }
+
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
@@ -17,5 +18,7 @@ namespace FoodDelivery.Models
         public float Price { get; set; }
         public string Image { get; set; }
         public int Quantity { get; set; }
+
+        public Order Order { get; set; }
     }
 }
