@@ -24,7 +24,7 @@ namespace FoodDelivery.Controllers
         [Route("get/{type}")]
         public async Task<IHttpActionResult> Get(string type)
         {
-            var record = await _db.Foods.Where(r => r.Type == type).ToListAsync();
+            var record = await _db.Foods.Where(r => r.Type == type && r.Order==null).ToListAsync();
             if (record == null)
                 return NotFound();
             else return Ok(record);
